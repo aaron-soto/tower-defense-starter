@@ -1,0 +1,76 @@
+@import "./2-helpers/helpers-dir";
+@import "./0-base/base-dir";
+@import "./1-modules/modules-dir";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  @extend .text-main-styles;
+
+  font-size: 18px;
+  line-height: 1.7rem;
+}
+
+.container {
+  width: 100%;
+  @include container();
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 2rem;
+  gap: 1rem;
+  padding: 1rem;
+  padding-top: 1.75rem;
+  border-radius: calc(0.5rem + 1rem);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  position: relative;
+
+  .buttons-heading {
+    position: absolute;
+    background-color: #fff;
+    @extend .main-border;
+    padding: 0.15rem 1rem;
+    border-radius: 0.5rem;
+    font-size: large;
+    top: -1.75rem;
+    left: -1rem;
+    width: calc(100% + 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #333;
+      color: #fff;
+    }
+  }
+
+  @extend .main-border;
+}
+
+button.tower-btn {
+  @extend .text-main-styles;
+  @extend .main-border;
+
+  flex: 2 1 0;
+  padding: 0.5rem 1rem;
+  background-color: #fff;
+  color: #000;
+  font-weight: 600;
+  font-size: large;
+  cursor: pointer;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: #333;
+    color: #fff;
+  }
+}
