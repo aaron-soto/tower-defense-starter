@@ -7,13 +7,82 @@
     Iste?
   </p>
 
+  <div class="canvas-wrapper">
+    <canvas #gameCanvas height="500" width="750"></canvas>
+  </div>
+
+  <div class="selected">
+    <div class="placing">
+      Placing:
+      <span>{{
+        overworld?.isPlacingTower
+          ? overworld?.towerToPlace?.displayName
+          : "None"
+      }}</span>
+    </div>
+    <h2 class="selected-heading">
+      Currently Selected:
+      <span>{{ overworld?.grid?.selectedObject?.displayName || "None" }}</span>
+      <span *ngIf="selectedObject"
+        >(Level {{ selectedObject?.currentLevel }})</span
+      >
+    </h2>
+    <div class="currently-selected">
+      <ng-container *ngIf="overworld?.grid?.selectedObject as tower">
+        <div class="stats">
+          <p>
+            <span class="title">Damage:</span>
+            <span class="from">{{ selectedObject?.attackDamage }}</span
+            ><i class="fa-solid fa-arrow-right"></i
+            ><span class="to">{{
+              selectedObject?.getNextLevelValue().attackDamage
+            }}</span>
+          </p>
+          <p>
+            <span class="title">Range:</span>
+            <span class="from">{{ selectedObject?.attackRange }}</span
+            ><i class="fa-solid fa-arrow-right"></i
+            ><span class="to">{{
+              selectedObject?.getNextLevelValue().attackRange
+            }}</span>
+          </p>
+          <p>
+            <span class="title">Fire Rate:</span>
+            <span class="from">{{ selectedObject?.fireRate }}</span
+            ><i class="fa-solid fa-arrow-right"></i
+            ><span class="to">{{
+              selectedObject?.getNextLevelValue().fireRate
+            }}</span>
+          </p>
+        </div>
+        <div class="actions">
+          <button class="upgrade">
+            Upgrade
+            <span>(${{ selectedObject.getNextLevelValue().upgradeCost }})</span>
+          </button>
+          <button class="sell">
+            Sell
+            <span>(${{ selectedObject.sellCost }})</span>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
   <div class="buttons">
     <h2 class="buttons-heading">
       <span>Towers</span><i class="fa-solid fa-angle-down"></i>
     </h2>
-    <button class="tower-btn">Laser</button>
-    <button class="tower-btn">Missile</button>
-    <button class="tower-btn">Click</button>
-    <button class="tower-btn">Click</button>
+    <button
+      class="tower-btn"
+      [class.active]="
+        overworld?.isPlacingTower && overworld?.towerToPlace?.key === tower.key
+      "
+      (click)="startPlacingTower(tower.key.toString())"
+      *ngFor="let tower of towerConfigurations | keyvalue"
+    >
+      <span>{{ tower.value.displayName }}</span>
+      <span>${{ tower.value.purchaseCost }}</span>
+    </button>
   </div>
 </div>

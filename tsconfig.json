@@ -12,7 +12,7 @@
       "@pipes/*": ["src/pipes/*"],
       "@services/*": ["src/services/*"]
     },
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

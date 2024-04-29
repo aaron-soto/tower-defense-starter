@@ -2,15 +2,6 @@
 // HELPERS
 // =====================
 
-@import "animations";
 @import "mixins";
 @import "functions";
 @import "constants";
-
-.main-border {
-  border: 3px solid $border-color;
-
-  &:hover {
-    border-color: #333;
-  }
-}

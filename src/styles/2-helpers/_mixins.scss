@@ -1,20 +1,20 @@
-@mixin container($max-widths: $container-max-widths, $padding-x: 15px) {
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: $padding-x;
-  padding-left: $padding-x;
+// @mixin container($max-widths: $container-max-widths, $padding-x: 15px) {
+//   margin-right: auto;
+//   margin-left: auto;
+//   padding-right: $padding-x;
+//   padding-left: $padding-x;
 
-  // Iterate over the provided max-widths map to generate media queries
-  @each $breakpoint, $container-max-width in $max-widths {
-    @if $breakpoint != null {
-      @media (min-width: #{map-get($container-max-widths, $breakpoint)}) {
-        max-width: $container-max-width;
-      }
-    } @else {
-      max-width: $container-max-width;
-    }
-  }
-}
+//   // Iterate over the provided max-widths map to generate media queries
+//   @each $breakpoint, $container-max-width in $max-widths {
+//     @if $breakpoint != null {
+//       @media (min-width: #{map-get($container-max-widths, $breakpoint)}) {
+//         max-width: $container-max-width;
+//       }
+//     } @else {
+//       max-width: $container-max-width;
+//     }
+//   }
+// }
 
 @mixin flexbox(
   $display: flex,
