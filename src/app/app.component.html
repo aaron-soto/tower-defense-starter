@@ -1,29 +1,28 @@
 <div class="container">
-  <h2 style="margin-top: 2rem">Tower Defense</h2>
-  <p>
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae tempora quos
-    cum cupiditate quam dolor reprehenderit voluptatibus enim, ducimus culpa
-    necessitatibus repellat saepe aut illum totam facere, sapiente suscipit.
-    Iste?
-  </p>
+  <div class="player-stats">
+    <div class="stat">
+      <span class="title">Money:</span>
+      <span class="value">${{ overworld?.player.money }}</span>
+    </div>
+    <div class="stat">
+      <span class="title">health:</span>
+      <span class="value">{{ overworld?.player.health }}</span>
+    </div>
+    <div class="stat">
+      <span class="title">Wave:</span>
+      <span class="value">{{ overworld?.currentWave }}</span>
+    </div>
+  </div>
 
   <div class="canvas-wrapper">
     <canvas #gameCanvas height="500" width="750"></canvas>
   </div>
 
   <div class="selected">
-    <div class="placing">
-      Placing:
-      <span>{{
-        overworld?.isPlacingTower
-          ? overworld?.towerToPlace?.displayName
-          : "None"
-      }}</span>
-    </div>
     <h2 class="selected-heading">
       Currently Selected:
       <span>{{ overworld?.grid?.selectedObject?.displayName || "None" }}</span>
-      <span *ngIf="selectedObject"
+      <span *ngIf="selectedObject" class="level-indicator"
         >(Level {{ selectedObject?.currentLevel }})</span
       >
     </h2>
@@ -32,35 +31,42 @@
         <div class="stats">
           <p>
             <span class="title">Damage:</span>
-            <span class="from">{{ selectedObject?.attackDamage }}</span
+            <span class="from">{{ selectedObject?.attackDamage }} hp</span
             ><i class="fa-solid fa-arrow-right"></i
             ><span class="to">{{
-              selectedObject?.getNextLevelValue().attackDamage
+              selectedObject?.getNextLevelValue()?.attackDamage || "Max"
             }}</span>
           </p>
           <p>
             <span class="title">Range:</span>
-            <span class="from">{{ selectedObject?.attackRange }}</span
+            <span class="from">{{ selectedObject?.attackRange }} cells</span
             ><i class="fa-solid fa-arrow-right"></i
             ><span class="to">{{
-              selectedObject?.getNextLevelValue().attackRange
+              selectedObject?.getNextLevelValue()?.attackRange || "Max"
             }}</span>
           </p>
           <p>
             <span class="title">Fire Rate:</span>
-            <span class="from">{{ selectedObject?.fireRate }}</span
+            <span class="from">{{ selectedObject?.fireRate }} /s</span
             ><i class="fa-solid fa-arrow-right"></i
             ><span class="to">{{
-              selectedObject?.getNextLevelValue().fireRate
+              selectedObject?.getNextLevelValue()?.fireRate || "Max"
             }}</span>
           </p>
         </div>
         <div class="actions">
-          <button class="upgrade">
-            Upgrade
-            <span>(${{ selectedObject.getNextLevelValue().upgradeCost }})</span>
+          <button
+            [class.maxLevel]="selectedObject.currentLevel === 3"
+            class="upgrade"
+            (click)="upgradeTower()"
+          >
+            <span *ngIf="!overworld.isSelectedTowerMaxLevel()">Upgrade</span>
+            <span *ngIf="overworld.isSelectedTowerMaxLevel()">Max Level</span>
+            <span *ngIf="!overworld.isSelectedTowerMaxLevel()"
+              >(${{ selectedObject.getNextLevelValue()?.upgradeCost }})</span
+            >
           </button>
-          <button class="sell">
+          <button class="sell" (click)="sellTower()">
             Sell
             <span>(${{ selectedObject.sellCost }})</span>
           </button>
@@ -70,9 +76,6 @@
   </div>
 
   <div class="buttons">
-    <h2 class="buttons-heading">
-      <span>Towers</span><i class="fa-solid fa-angle-down"></i>
-    </h2>
     <button
       class="tower-btn"
       [class.active]="

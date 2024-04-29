@@ -68,4 +68,12 @@ export class AppComponent {
     this.overworld.towerToPlace = this.getTowerConfig(towerName);
     this.cdr.detectChanges();
   }
+
+  upgradeTower() {
+    this.overworld.upgradeTower();
+  }
+
+  sellTower() {
+    this.overworld.sellTower();
+  }
 }

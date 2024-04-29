@@ -1,6 +1,36 @@
-@import "./2-helpers/helpers-dir";
-@import "./0-base/base-dir";
-@import "./1-modules/modules-dir";
+$body-background: #646365;
+$body-1-background: #868188;
+$body-2-background: #b8b5b9;
+$border-color: #000;
+
+$spacing: 0.7rem;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+);
+
+@mixin flexbox(
+  $display: flex,
+  $direction: row,
+  $justify: flex-start,
+  $align: stretch
+) {
+  display: $display;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin prefix($property, $value) {
+  -webkit-#{$property}: $value;
+  -moz-#{$property}: $value;
+  -ms-#{$property}: $value;
+  -o-#{$property}: $value;
+  #{$property}: $value;
+}
 
 * {
   margin: 0;
@@ -13,6 +43,22 @@ html {
 
   font-size: 18px;
   line-height: 1.7rem;
+}
+
+b {
+  font-weight: 600;
+}
+
+.canvas-wrapper {
+  margin: $spacing auto;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #e7ecef;
+  border: 3px solid $border-color;
+  cursor: pointer;
 }
 
 .container {
@@ -39,31 +85,11 @@ html {
 .buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin-top: 2rem;
-  gap: 1rem;
-  padding: 1rem;
-  padding-top: 1.75rem;
+  margin-top: $spacing;
+  gap: $spacing;
+  padding: $spacing;
+  padding-top: $spacing;
   position: relative;
-
-  .buttons-heading {
-    position: absolute;
-    background-color: #fff;
-    @extend .main-border;
-    padding: 0.15rem 1rem;
-    font-size: large;
-    top: -1.75rem;
-    left: -1rem;
-    width: calc(100% + 2rem);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #333;
-      color: #fff;
-    }
-  }
 
   @extend .main-border;
 }
@@ -76,7 +102,7 @@ button.tower-btn {
   justify-content: space-between;
 
   flex: 2 1 0;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem $spacing;
   background-color: #fff;
   color: #000;
   font-weight: 600;
@@ -94,24 +120,38 @@ button.tower-btn {
   }
 }
 
+.player-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing;
+  padding: $spacing;
+  margin-top: 2rem;
+  @extend .main-border;
+
+  .stat {
+    width: 100%;
+    @extend .main-border;
+    padding: 0.2rem $spacing;
+
+    .title {
+      font-weight: 600;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing;
+  }
+}
+
 .selected {
   @extend .main-border;
-  padding: 1rem;
+  padding: $spacing;
   position: relative;
 
   h2 {
     font-size: 1.1rem;
-  }
-
-  .placing {
-    position: absolute;
-    top: -1rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    @extend .main-border;
-    width: 300px;
-    padding: 0.5rem 1rem;
   }
 
   .selected-heading {
@@ -119,13 +159,17 @@ button.tower-btn {
     span {
       font-weight: 600;
     }
+
+    .level-indicator {
+      color: #868188;
+    }
   }
 
   .currently-selected {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 170px;
+    height: 145px;
 
     .stats {
       p {
@@ -145,6 +189,7 @@ button.tower-btn {
         }
         .from {
           font-weight: 600;
+          width: 70px;
         }
         .to {
           font-weight: 600;
@@ -178,11 +223,31 @@ button.tower-btn {
         }
 
         &.upgrade {
-          background-color: green;
+          background-color: #8ab060;
+          color: #f2f0e5;
+          border-color: darken(#8ab060, 15%);
+
+          &:hover {
+            background-color: lighten(#8ab060, 10%);
+          }
+
+          &.maxLevel {
+            background-color: gray !important;
+            border-color: #333;
+            color: #f2f0e5 !important;
+            opacity: 0.4;
+            pointer-events: none;
+          }
         }
 
         &.sell {
-          background-color: red;
+          background-color: #b45252;
+          color: #f2f0e5;
+          border-color: darken(#b45252, 15%);
+
+          &:hover {
+            background-color: lighten(#b45252, 10%);
+          }
         }
       }
     }

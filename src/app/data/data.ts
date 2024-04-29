@@ -40,7 +40,6 @@ export enum COLORS {
   PURE_BLACK = '#000000',
   MAIN_BG = '#2F2F2F',
 }
-
 export type TowerConfiguration = {
   displayName: string;
   key: string;
